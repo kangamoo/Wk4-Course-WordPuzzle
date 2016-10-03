@@ -124,10 +124,52 @@ def playGame(wordList):
 
     wordList: list (string)
     """
-    # TO DO... <-- Remove this comment when you code this function
-    print("playGame not yet implemented.") # <-- Remove this when you code this function
+    # blank dict for previous hand
+    previousDict = {}
+    # implement an endless loop, that can be broken later when the user inputs e
+    while True:
+        # blank dict for current hand
+        currentDict = {}
+        # request input
+        play = input("Enter n to deal a new hand, r to replay the last hand, or e to end game: ")
+        # if user enters e, break
+        if play == 'e':
+            break
+        # elif user enters r, check if there is a previous hand, and continue
+        elif play == 'r':
+            if len(previousDict.keys()) > 0:
+                currentDict = previousDict.copy()
+            else:
+                print("You have not played a hand yet. Please play a new hand first!")
+        # elif user enters n, deal a new hand
+        elif play == 'n':
+            currentDict = dealHand(HAND_SIZE)
+            previousDict = currentDict.copy()
+        # else invalid input
+        else:
+            print("Invalid command.")
 
-        
+        # if current hand isn't empty
+        if len(currentDict.keys()) > 0:
+            # loop this until they enter either a u or c
+            while True:
+                # request user input for player
+                player = input("Enter u to have yourself play, c to have the computer play: ")
+                # if player is user
+                if player == 'u':
+                    # run playHand
+                    playHand(currentDict, wordList, HAND_SIZE)
+                    break
+                # elif player is computer
+                elif player == 'c':
+                    # run compPlayHand
+                    compPlayHand(currentDict, wordList, HAND_SIZE)
+                    break
+                else:
+                    # invalid command
+                    print("Invalid command.")
+
+
 #
 # Build data structures used for entire session and play game
 #
